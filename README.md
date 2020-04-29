@@ -1,4 +1,4 @@
 # slimtz
 
 
-* get all users => path http://site/users
+* get all users => path `http://site/users`
