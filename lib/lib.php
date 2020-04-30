@@ -50,7 +50,8 @@ function deleteUser($delUser, $users)
 
 function validateNewUser($user)
 {
-    if ($user['id'] == '' || $user['name'] == '' || ! is_integer($user['id'])) {
+
+    if ($user['id'] == '' || $user['name'] == '' || ! preg_match('#^[0-9]+$#', $user['id'])) {
         return false;
     }
       $result = [];
