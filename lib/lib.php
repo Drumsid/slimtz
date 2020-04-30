@@ -1,7 +1,7 @@
 <?php
 
-define("USERS_LIST", file_get_contents('users/users.json'));
-define("PATH_TO_USERS", __DIR__ . "/../users/users.json");
+define("LIST_OF_USERS", file_get_contents('users/users.json'));
+define("PATH_TO_USER_FILE", __DIR__ . "/../users/users.json");
 
 function getUser($users, $id)
 {
@@ -16,7 +16,7 @@ function getUser($users, $id)
     return false;
 }
 
-function adduser($users, $data)
+function addUser($users, $data)
 {
     $users = json_decode($users, true);
     $users[] = ['id' => (int) $data['id'], 'name' => $data['name']];
@@ -45,5 +45,30 @@ function deleteUser($delUser, $users)
             return $user;
         }
     });
+    return json_encode($result, true);
+}
+
+function validateNewUser($user)
+{
+    if ($user['id'] == '' || $user['name'] == '' || ! is_integer($user['id'])) {
+        return false;
+    }
+      $result = [];
+    foreach ($user as $key => $value) {
+        if ($key == 'id' || $key == 'name') {
+            $result[$key] = trim(htmlspecialchars($value));
+        }
+    }
+      return $result;
+}
+
+function validateUpdateUser($user)
+{
+    $user = json_decode($user, true);
+    $result = [];
+    if ($user['name'] == '') {
+        return false;
+    }
+    $result['name'] = trim(htmlspecialchars($user['name']));
     return json_encode($result, true);
 }
